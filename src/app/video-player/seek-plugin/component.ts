@@ -1,3 +1,4 @@
+// import { error } from 'console';
 import { videoJs } from '../videojs';
 import { SeekOptions } from "./types";
 const Button = videoJs.getComponent('Button');
@@ -27,10 +28,31 @@ export class SeekButtonComponent extends Button {
 
     handleClick() {
         const currentTime = this.player_.currentTime();
+        let seekDuration = 0;
         if (this.options_.forward) {
+            seekDuration = this.options_.forward;
             this.player_.currentTime(currentTime + this.options_.forward);
         } else if (this.options_.backward) {
+          seekDuration = this.options_.backward;
             this.player_.currentTime(currentTime - this.options_.backward);
         }
+
+        const data = {
+          currentTime,
+          seekDuration
+        }
+
+        const requestOptions: RequestInit = {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {'Content-type': 'application/json'}
+        };
+        fetch('', requestOptions)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to send seek request to server');
+          }
+        })
+        .catch (error => console.error(error));
     }
 }

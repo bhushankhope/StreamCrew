@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: edgeserver
+  labels:
+    app: edgeserver
+spec:
+  ports:
+  - port: 8000
+    targetPort: http-server
+  selector:
+    app: edgeserver
+  type: LoadBalancer
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: edgeserver1
+  labels:
+    app: edgeserver1
+spec:
+  ports:
+  - port: 8001
+    targetPort: http-server
+  selector:
+    app: edgeserver1
+  type: LoadBalancer

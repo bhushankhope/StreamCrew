@@ -18,8 +18,8 @@ export class AppComponent {
       // type: 'application/x-mpegURL'
       // },
       {
-      src: 'https://storage.googleapis.com/hubert-raymond-webpage/The_Hustler(1961)---H264.mp4',
-      type: 'video/mp4'
+      src: 'http://localhost:8000/getContent/The_Hustler(1961)---H264.mpd',
+      type: 'application/dash+xml'
       },
     ],
     plugins: {

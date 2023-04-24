@@ -3,14 +3,20 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { VideoPlayerComponent } from './video-player/video-player.component';
+import { WebSocketComponent } from './components/websocket/websocket.component';
+import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    VideoPlayerComponent
+    VideoPlayerComponent,
+    WebSocketComponent    
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

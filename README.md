@@ -1,5 +1,7 @@
 # ADS-Project backend service.
 
+Make sure you have ports 3306 and 6379 free
+
 To run just the service in your local - 
 1. pip install -r requirements.txt
 2. uvicorn main:app --reload

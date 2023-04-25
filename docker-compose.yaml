@@ -1,0 +1,45 @@
+version: '3.6'
+
+services: 
+    db:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        container_name: mydb
+        environment: 
+            MYSQL_DATABASE: StreamCrew
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: user
+            MYSQL_PASSWORD: root123@
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 10
+        volumes: 
+            - ./init:/docker-entrypoint-initdb.d
+        networks:
+          - backnet
+        expose:
+          - 3306
+          - 33060
+        ports:
+          - 3306:3306
+          - 33060:33060
+
+    app:
+        image: app
+        restart: always
+        ports: 
+            - 8080:80 
+        links:
+            - "db"
+        networks:
+          - backnet
+          - frontnet
+        depends_on:
+          db:
+            condition: service_healthy
+
+networks:
+  backnet:
+  frontnet:

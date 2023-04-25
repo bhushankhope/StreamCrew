@@ -5,6 +5,11 @@ from botocore.exceptions import ClientError
 from dotenv import load_dotenv
 import os
 import pathlib
+import sys
+
+
+sys.path.append("/home/${USER}/cache")
+from cache import cache
 
 load_dotenv()
 
@@ -21,10 +26,17 @@ s3_client = awsSession.client('s3')
 
 @router.get('/{cid}')
 async def  get_content(cid: str):
+    # The_Hustler(1961)---H264.mpd
     try:
-        path = os.path.dirname(os.path.realpath(__file__))+ "\\" + cid
+        if cache.getCacheData(cid):
+            path = os.path.dirname(os.path.realpath(__file__))+ "\\cache\\" + cid
+            s3_client.download_file("streamcrew-movie-cache", cid, path)
+        else:
+            path = os.path.dirname(os.path.realpath(__file__))+ "\\" + cid
 
-        s3_client.download_file("streamcrew-movie-output", cid, path)
+            s3_client.download_file("streamcrew-movie-output", cid, path)
+            _ = cache.updateCache(cid, "streamcrew-cache", path, cid, s3_client)
+
         return FileResponse(path)
 
 

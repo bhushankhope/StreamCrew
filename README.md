@@ -6,7 +6,7 @@ To run just the service in your local -
 
 To run the service inside a container - 
 1. docker build . -t <name> 
-2. docker run -p 8000:8000 <name>
+2. docker-compose up --build 
 
 To run the service in kubernetes cluster - 
 1. kubectl apply -f <your path to app_pods.yaml>

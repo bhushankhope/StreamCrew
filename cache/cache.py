@@ -1,7 +1,21 @@
 
 import redis
-## give the host value as the redis service IP
-r = redis.Redis(host='localhost', port=6379, db=0)
-r.set('test', 'redis')
-value = r.get('test')
-print(value)
+
+class RedisConn:
+    def __init__(self):
+        self.conn = redis.Redis(host='redis', port=6379, db=0)
+
+def getCacheData(key):
+    cache = RedisConn()
+    if cache.conn.exists(key):
+        print("Getting data from cache")
+    return cache.conn.get(key)
+    
+def updateCache(key, value, filePath, cid, s3_client):
+    cache = RedisConn()
+    res = cache.conn.set(key, value)
+    if res == True:
+        s3_client.upload_file(Filename= filePath, Bucket="streamcrew-movie-cache", Key= cid)
+        print("Updated Cache")
+    else:
+        print("Failed to update cache")

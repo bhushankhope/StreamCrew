@@ -5,7 +5,7 @@ To run just the service in your local -
 2. uvicorn main:app --reload
 
 To run the service inside a container - 
-1. docker build . -t <name> 
+1. docker build . -t app 
 2. docker-compose up --build 
 
 To run the service in kubernetes cluster - 

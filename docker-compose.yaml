@@ -33,14 +33,14 @@ services:
             - 6379:6379 
         networks:
           - backnet
-          - frontnet
+          - frontnet    
         healthcheck:
             test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
     app:
         image: app
         restart: always
         ports: 
-            - 8080:80 
+            - 8001:8001 
         links:
             - "db"
             - "cache"

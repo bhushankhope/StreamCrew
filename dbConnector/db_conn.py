@@ -5,6 +5,7 @@ import random
 class Connection:
     def __init__(self):
         self.mydb = mysql.connector.connect(
+        # host="localhost",
         host="mydb",
         user="user",
         password="root123@",

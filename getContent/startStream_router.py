@@ -13,11 +13,11 @@ from dbConnector import db_conn
 load_dotenv()
 
 router = APIRouter(
-    prefix='/startStream',
+    prefix='/Stream',
     tags = ['handle session']
 )
 
-@router.post('/{movie}/{userId}')
+@router.post('/createSession/{movie}/{userId}')
 async def startSession(movie: str, userId: str):
     try:
         session_token = db_conn.createSession(movie, userId)
@@ -27,7 +27,7 @@ async def startSession(movie: str, userId: str):
         print('Error while creating session', err)
         return JSONResponse(status_code=500, content={"message": "Failed while creating the response" })
 
-@router.post('/{sessionId}/{userId}')
+@router.post('/joinSession/{sessionId}/{userId}')
 async def joinSession(userId: str, sessionId: str):
     try:
         db_conn.joinSession(userId, sessionId)

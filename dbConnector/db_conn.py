@@ -17,7 +17,7 @@ def generateHash():
     x = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(5))
     return x
 
-def createSession(contentId):
+def createSession(contentId, userId):
     print("Before generating has")
     hashId = generateHash()
     print("Generated Hash:", hashId)
@@ -28,6 +28,7 @@ def createSession(contentId):
         hashId = createSession()
     else:
         conn.mycursor.execute("INSERT INTO Session(SessionId, ContentId) VALUES (%s,%s)",(hashId,contentId))
+        conn.mycursor.execute("INSERT INTO Users(UserId, SessionId) VALUES (%s,%s)",(userId, hashId))
         
     conn.mycursor.close()
     conn.mydb.commit()

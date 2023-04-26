@@ -17,10 +17,10 @@ router = APIRouter(
     tags = ['handle session']
 )
 
-@router.post('/{movie}')
-async def startSession(movie: str):
+@router.post('/{movie}/{userId}')
+async def startSession(movie: str, userId: str):
     try:
-        session_token = db_conn.createSession(movie)
+        session_token = db_conn.createSession(movie, userId)
         return JSONResponse(status_code=200, content={"message": "Successfully created the session.", "sessionToken": session_token })
 
     except Exception as err:

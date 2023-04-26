@@ -11,7 +11,6 @@ export class LandingPageComponent {
   sessionId: string = "";
   userName: string= "";
   movieName: string =  "Hustler";
-  inputValue: string = '';
   isButtonClicked: boolean = true;
   constructor(private readonly apiservice: ApiService) { }
 
@@ -23,8 +22,9 @@ export class LandingPageComponent {
     this.apiservice.createSession(movieName, userName).subscribe((data: any)=> {
       console.log(data)
       this.sessionId = data.sessionToken;
+      window.localStorage.setItem("userName",userName)
+      window.localStorage.setItem("sessionId",data.sessionToken)
     })
-    console.log(this.inputValue)
   }
 
   joinSessionClick(sessionid: string, username: string) {
@@ -32,6 +32,8 @@ export class LandingPageComponent {
       console.log(data)
       this.sessionId = sessionid;
       this.userName = username;
+      window.localStorage.setItem("userName",username)
+      window.localStorage.setItem("sessionId",sessionid)
     })
   }
 }

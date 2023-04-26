@@ -18,7 +18,7 @@ export class AppComponent {
       // type: 'application/x-mpegURL'
       // },
       {
-      src: 'http://localhost:8000/getContent/The_Hustler(1961)---H264.mpd',
+      src: 'http://localhost:8001/getContent/The_Hustler(1961)---H264.mpd',
       type: 'application/dash+xml'
       },
     ],

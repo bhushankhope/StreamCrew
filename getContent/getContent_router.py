@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Response, Request
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 import boto3
 from botocore.exceptions import ClientError
 from dotenv import load_dotenv
@@ -7,9 +7,11 @@ import os
 import pathlib
 import sys
 
-
 sys.path.append("/home/${USER}/cache")
 from cache import cache
+
+sys.path.append("/home/${USER}/db_connector")
+from dbConnector import db_conn
 
 load_dotenv()
 
@@ -39,8 +41,30 @@ async def  get_content(cid: str):
 
         return FileResponse(path)
 
-
     except ClientError as e:
         error_code = e.response['Error']['Code']
         error_message = e.response['Error']['Message']
         print("Error code: {}. Error message: {}".format(error_code, error_message))
+
+
+
+
+@router.get('/getUsers/{sessionid}')
+async def  get_users(sessionid: str):
+    try:
+        users = db_conn.getSessionUsers(sessionid)
+        return JSONResponse(status_code=200, content=users)
+
+    except Exception as err:
+        print('Error while creating session', err)
+        return JSONResponse(status_code=500, content={"message": "Failed to retrive users" })
+
+@router.get('/getAllSessions/')
+async def  get_sessions_users(req: str = ''):
+    try:
+        alldata = db_conn.getAllSessionUsers()
+        return JSONResponse(status_code=200, content=alldata)
+
+    except Exception as err:
+        print('Error while creating session', err)
+        return JSONResponse(status_code=500, content={"message": "Failed to retrive users" })

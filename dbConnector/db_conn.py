@@ -28,6 +28,9 @@ def createSession(contentId):
         hashId = createSession()
     else:
         conn.mycursor.execute("INSERT INTO Session(SessionId, ContentId) VALUES (%s,%s)",(hashId,contentId))
+        
+    conn.mycursor.close()
+    conn.mydb.commit()
     return hashId
         
 def joinSession(userId, sesionId):
@@ -35,9 +38,30 @@ def joinSession(userId, sesionId):
     conn.mycursor.execute("SELECT * FROM Users WHERE UserId=%s",(userId,))
     data = conn.mycursor.fetchall()
     if data:
+        conn.mycursor.close()
         return "User is already in a session",data["SessionId"]
     else:
-        conn.mycursor.execute("INSERT INTO Users VALUES (%s,%s)",(userId,sesionId))
+        conn.mycursor.execute("INSERT INTO Users(UserId, SessionId) VALUES (%s,%s)",(userId,sesionId))
+        conn.mycursor.close()
+        conn.mydb.commit()
+
+def getSessionUsers(sessionId: string):
+    conn = Connection()
+    conn.mycursor.execute("SELECT * FROM Users WHERE SessionId=%s", (sessionId,))
+    data = conn.mycursor.fetchall()
+    res = []
+    for x in data:
+        print(x)
+        res.append(x[0])
+    conn.mycursor.close()
+    return res
+
+def getAllSessionUsers():
+    conn = Connection()
+    conn.mycursor.execute("SELECT * FROM Users ")
+    data = conn.mycursor.fetchall()
+    conn.mycursor.close()
+    return data
 
 def deleteSession(sessionId):
     conn = Connection()
@@ -46,10 +70,15 @@ def deleteSession(sessionId):
     if data:
         conn.mycursor.execute("DELETE FROM Session WHERE SessionId=%s",(sessionId,))
         conn.mycursor.execute("DELETE FROM Users WHERE SessionId=%s",(sessionId,))
+        conn.mycursor.close()
+        conn.mydb.commit()
     else:
+        conn.mycursor.close()
         return "SessionId not found"
     
 def dropSession(userId, sessionId):
     conn = Connection()
     conn.mycursor.execute("DELETE FROM Users WHERE UserId=%s and SessionId=%s",(userId, sessionId))
+    conn.mycursor.close()
+    conn.mydb.commit()
     

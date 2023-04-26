@@ -11,7 +11,11 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   //{message, sessionToken}
-  createSession(movName: string): Observable<any> {
-    return this.http.post(this.apiUrl+`/startStream/${movName}`,'');
+  createSession(movName: string, userName: string): Observable<any> {
+    return this.http.post(this.apiUrl+`/Stream/createSession/${movName}/${userName}`,'');
+  }
+
+  joinSession(userId: string, sessionId: string) {
+    return this.http.post(this.apiUrl+`/Stream/joinSession/${sessionId}/${userId}`,'')
   }
 }

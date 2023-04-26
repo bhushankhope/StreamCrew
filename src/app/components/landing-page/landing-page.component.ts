@@ -9,17 +9,29 @@ import { ApiService } from 'src/app/services/apiservice.service';
 })
 export class LandingPageComponent {
   sessionId: string = "";
+  userName: string= "";
   movieName: string =  "Hustler";
+  inputValue: string = '';
+  isButtonClicked: boolean = true;
   constructor(private readonly apiservice: ApiService) { }
 
-  createSessionClick(movieName: string) {
-    this.apiservice.createSession(movieName).subscribe((data: any)=> {
+  buttonClick() {
+    this.isButtonClicked = false;
+  }
+
+  createSessionClick(movieName: string, userName: string) {
+    this.apiservice.createSession(movieName, userName).subscribe((data: any)=> {
       console.log(data)
       this.sessionId = data.sessionToken;
     })
+    console.log(this.inputValue)
   }
 
-  joinSessionClick(sessionId: string) {
-    
+  joinSessionClick(sessionid: string, username: string) {
+    this.apiservice.joinSession(sessionid, username).subscribe((data: any)=> {
+      console.log(data)
+      this.sessionId = sessionid;
+      this.userName = username;
+    })
   }
 }

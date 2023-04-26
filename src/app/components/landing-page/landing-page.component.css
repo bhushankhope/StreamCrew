@@ -6,8 +6,14 @@
     justify-content: center;
 }
 
+.mat-tab-class {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .mat-raised-button {
-    width: 20rem;
+    width: 10rem;
 }
 
 .mat-raised-button:last-child {

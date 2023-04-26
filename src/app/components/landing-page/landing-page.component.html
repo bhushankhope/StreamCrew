@@ -1,6 +1,20 @@
 <div class="container">
-    Enter Username
-    <input type="text" style="margin-bottom: 1rem;">
-    <button mat-raised-button color="primary" (click)="createSessionClick(movieName)">Create Session</button>
-    <button mat-raised-button color="primary">Join Session</button>
+    <mat-tab-group>
+        <mat-tab label="Create">
+            <div class="mat-tab-class">
+                Enter Username
+                <input type="text" [(ngModel)]="inputValue" style="margin-bottom: 1rem; width: 70%;" placeholder="username">
+                <button mat-raised-button color="primary" (click)="createSessionClick(movieName, inputValue)">Create Session</button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Join">
+            <div class="mat-tab-class">
+                Enter Username
+                <input type="text" [(ngModel)]="userName" placeholder="username">
+                Enter Session Id
+                <input type="text" [(ngModel)]="sessionId" placeholder="sessionid">
+                <button mat-raised-button color="primary" (click)="joinSessionClick(userName, sessionId)">Join Session</button>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
 </div>

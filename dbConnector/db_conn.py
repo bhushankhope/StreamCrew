@@ -40,7 +40,7 @@ def joinSession(userId, sesionId):
     data = conn.mycursor.fetchall()
     if data:
         conn.mycursor.close()
-        return "User is already in a session",data["SessionId"]
+        return "User is already in a session",data
     else:
         conn.mycursor.execute("INSERT INTO Users(UserId, SessionId) VALUES (%s,%s)",(userId,sesionId))
         conn.mycursor.close()

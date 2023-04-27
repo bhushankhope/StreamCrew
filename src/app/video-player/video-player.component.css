@@ -14,5 +14,15 @@
   .button {
     font-size: 20px; /* adjust as needed */
     padding: 10px 20px;
+    margin-left: 5%;
     margin: 0 10px;
+  }
+
+  .space {
+    margin-right: 4%;
+  }
+
+  .session-button {
+    margin-top: 3%;
+    margin-left: 70%;
   }

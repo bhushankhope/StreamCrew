@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WebsocketComponent } from './websocket.component';
+import { StartsessionComponent } from './startsession.component';
 
-describe('WebsocketComponent', () => {
-  let component: WebsocketComponent;
-  let fixture: ComponentFixture<WebsocketComponent>;
+describe('StartsessionComponent', () => {
+  let component: StartsessionComponent;
+  let fixture: ComponentFixture<StartsessionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WebsocketComponent ]
+      declarations: [ StartsessionComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WebsocketComponent);
+    fixture = TestBed.createComponent(StartsessionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

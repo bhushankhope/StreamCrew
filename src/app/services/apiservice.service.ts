@@ -23,4 +23,7 @@ export class ApiService {
     return this.http.delete(this.apiUrl+`/Stream/${sessionId}/${userId}`)
   }
 
+  getUsers(sessionId: string): Observable<any> {
+    return this.http.get(this.apiUrl+`/getContent/getUsers/${sessionId}`);
+  }
 }

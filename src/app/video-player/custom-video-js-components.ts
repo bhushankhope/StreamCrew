@@ -52,7 +52,7 @@ class CustomVideoJsComponent {
           'button',
           {
             className: 'vjs-custom-button',
-            innerHTML: 'Custom button. Click and check logs',
+            innerHTML: '',
             tabIndex: 0,
           },
           {

@@ -41,7 +41,7 @@ export class VideoPlayerComponent implements OnDestroy, AfterViewInit {
 
   onPlayerReady() {
     console.log('Player is ready.');
-    this.player.addChild('TitleBar', { text: 'Custom title bar component.' });
+    this.player.addChild('TitleBar', { text: '' });
     this.player.addChild('CustomButton');
   }
 

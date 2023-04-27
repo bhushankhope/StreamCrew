@@ -3,7 +3,8 @@
     flex-direction: column;
     align-items: center;
     height: 20rem;
-    justify-content: center;
+    justify-content: center;height: -webkit-fill-available;
+    background-image: linear-gradient(111.1deg, rgb(0, 40, 70) -4.8%, rgb(255, 115, 115) 82.7%, rgb(255, 175, 123) 97.2%);
 }
 
 .mat-tab-class {

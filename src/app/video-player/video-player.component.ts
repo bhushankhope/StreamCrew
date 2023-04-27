@@ -6,49 +6,80 @@ import "./notes-plugin";
 import "./sprites-plugin";
 import { videoJs } from './videojs';
 import { ApiService } from '../services/apiservice.service';
+import { Injectable } from '@angular/core';
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
 @Component({
   selector: 'app-video-player',
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.css']
 })
-export class VideoPlayerComponent implements OnDestroy, AfterViewInit {
+
+@Injectable({
+  providedIn: 'root',
+})
+
+export class VideoPlayerComponent implements AfterViewInit {
   @ViewChild('target', { static: true })
   target!: ElementRef;
   @Input() options: VideoJsOptions = {};
   player: any;
   sessionId: string | null='';
   userId: string | null='';
+  socket: WebSocketSubject<any>;
   constructor(private apiservice: ApiService) { }
+
+  ngOnInit() {
+    if (!this.socket || this.socket.closed) {
+      this.socket = webSocket('ws://localhost:8001/ws');
+
+      this.socket.subscribe((data: any) => {
+        console.log("received message:", data.message);
+        let msg = JSON.parse(data.message).message;
+        if(msg.includes("play")){
+          this.player.play();
+        }
+        if(msg.includes("pause")){
+          this.player.pause();
+        }
+      });
+    }
+  }
 
   ngAfterViewInit(): void {
     CustomVideoJsComponent.registerTitleComponent();
     CustomVideoJsComponent.registerCustomButton();
     this.player = videoJs(this.target.nativeElement, this.options, this.onPlayerReady.bind(this));
     this.player.customSeekButtons({
-      forward: 20,
-      backward: 15,
-      fwdBtnPosition: 1,
-      bwdBtnPosition: 1,
-      fwdBtnTooltip: `Seek 20 seconds forward`,
-      bwdBtnTooltip: `Seek 15 seconds backward`
+
     });
+
     this.player.notesButton({});
     this.player.sprites({
       spritesUrl: 'https://storage.googleapis.com/hubert-raymond-webpage/The_Hustler(1961)-sprites-256x144.png'
     });
+
+    this.player.on('play', (e:any) => {
+        console.log("playing video")
+        let msg = JSON.stringify({
+          message: "playing video"
+        })
+        this.socket.next(msg)
+      });
+
+    this.player.on('pause', (e: any) => {
+        console.log("player paused video")
+        let msg = JSON.stringify({
+          message: "paused video"
+        })
+        this.socket.next(msg)
+      });
   }
 
   onPlayerReady() {
     console.log('Player is ready.');
     this.player.addChild('TitleBar', { text: '' });
     this.player.addChild('CustomButton');
-  }
-
-  ngOnDestroy(): void {
-    if (this.player) {
-      this.player.dispose();
-    }
   }
 
   stopSessionClick() {

@@ -7,7 +7,7 @@ import { VideoJsOptions } from 'src/models/videojs-options';
   styleUrls: ['./video.component.css']
 })
 export class VideoComponent {
-
+  
   videoJsOptions: VideoJsOptions = {
     controls: true,
     loadingSpinner: true,

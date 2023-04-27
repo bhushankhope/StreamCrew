@@ -19,16 +19,14 @@ export class WebSocketService {
       this.socket$ = webSocket('ws://localhost:8001/ws');
 
       this.socket$.subscribe((data: MessageData) => {
+        console.log(data)
         this.receivedData.push(data);
       });
     }
   }
 
-  sendMessage(message: string) {
-    this.socket$.next({ message });
-  }
-
-  close() {
-    this.socket$.complete();
+  public sendMessage(message: string) {
+    console.log("sending socket message")
+    this.socket$.next( message );
   }
 }

@@ -6,7 +6,7 @@ import { WebSocketService } from '../services/websocket.service';
   templateUrl: './websocket.component.html',
   styleUrls: ['./websocket.component.css']
 })
-export class WebSocketComponent implements OnDestroy {
+export class WebSocketComponent  {
   
   message = '';
 
@@ -16,9 +16,5 @@ export class WebSocketComponent implements OnDestroy {
 
   sendMessage(message: string) {
     this.webSocketService.sendMessage(message);
-  }
-
-  ngOnDestroy() {
-    this.webSocketService.close();
   }
 }

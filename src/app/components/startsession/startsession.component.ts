@@ -37,11 +37,8 @@ export class StartsessionComponent implements OnInit {
     }); 
   }
 
-   ngOnDestroy() {
-    this.timeInterval.unsubscribe();
-   }
-
    public startsession() {
+       this.timeInterval.unsubscribe();
        this.router.navigate(['video']);
    }
 

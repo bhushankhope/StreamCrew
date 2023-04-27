@@ -1,0 +1,18 @@
+#video-player {
+    width: 80%;
+    height: 80vh;
+    margin: 0 auto;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* adjust as needed */
+  }
+  
+  .button {
+    font-size: 20px; /* adjust as needed */
+    padding: 10px 20px;
+    margin: 0 10px;
+  }

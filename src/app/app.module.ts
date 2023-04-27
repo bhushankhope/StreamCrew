@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { VideoComponent } from './components/video/video.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     BrowserAnimationsModule,
     MatButtonModule,
     HttpClientModule,
-    MatTabsModule
+    MatTabsModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

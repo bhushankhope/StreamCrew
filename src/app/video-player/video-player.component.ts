@@ -5,6 +5,7 @@ import "./seek-plugin";
 import "./notes-plugin";
 import "./sprites-plugin";
 import { videoJs } from './videojs';
+import { ApiService } from '../services/apiservice.service';
 
 @Component({
   selector: 'app-video-player',
@@ -16,8 +17,9 @@ export class VideoPlayerComponent implements OnDestroy, AfterViewInit {
   target!: ElementRef;
   @Input() options: VideoJsOptions = {};
   player: any;
-
-  constructor() { }
+  sessionId: string | null='';
+  userId: string | null='';
+  constructor(private apiservice: ApiService) { }
 
   ngAfterViewInit(): void {
     CustomVideoJsComponent.registerTitleComponent();
@@ -49,4 +51,15 @@ export class VideoPlayerComponent implements OnDestroy, AfterViewInit {
     }
   }
 
+  stopSessionClick() {
+    this.sessionId = window.localStorage.getItem("sessionId")
+    this.userId = window.localStorage.getItem("userName")
+    this.apiservice.stopSession(this.sessionId, this.userId).subscribe((data: any)=> {
+      console.log(data)
+      this.sessionId = window.localStorage.getItem("sessionId");
+      this.userId = window.localStorage.getItem("userName");
+      window.localStorage.clear()
+    })
+
+}
 }

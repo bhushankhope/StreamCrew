@@ -18,4 +18,9 @@ export class ApiService {
   joinSession(userId: string, sessionId: string) {
     return this.http.post(this.apiUrl+`/Stream/joinSession/${sessionId}/${userId}`,'')
   }
+
+  stopSession(userId: string|null, sessionId: string|null) {
+    return this.http.delete(this.apiUrl+`/Stream/${sessionId}/${userId}`)
+  }
+
 }

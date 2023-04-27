@@ -3,8 +3,8 @@
     flex-direction: column;
     align-items: center;
     height: 20rem;
-    justify-content: center;height: -webkit-fill-available;
-    background-image: linear-gradient(111.1deg, rgb(0, 40, 70) -4.8%, rgb(255, 115, 115) 82.7%, rgb(255, 175, 123) 97.2%);
+    /* justify-content: center; */
+    height: -webkit-fill-available;
 }
 
 .mat-tab-class {
@@ -13,10 +13,31 @@
     align-items: center;
 }
 
+
+::ng-deep .mat-tab-label-content{
+    font-size: 2rem;
+    font-family: 'Bebas Neue', cursive;
+}
+
 .mat-raised-button {
     width: 10rem;
 }
 
 .mat-raised-button:last-child {
     margin-top: 1rem;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 9rem;
+    padding-top: 5rem;
+    font-size: 3rem;
+    color: #ff9a51; 
+}
+
+img {
+    height: 64px;
+    width: 64px;
 }

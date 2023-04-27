@@ -27,6 +27,7 @@ def process_play(data):
 async def websocket_endpoint(websocket: WebSocket):
     # Accept the connection from a client.
     await websocket.accept()
+    global socketConnections
     socketConnections.append(websocket)
 
     while True:
@@ -36,6 +37,7 @@ async def websocket_endpoint(websocket: WebSocket):
             # Some (fake) heavy data processing logic.
             message_processed = process_play(data)
             # Send JSON data to the client.
+            print(websocket)
             for x in socketConnections:
                 await x.send_json(
                     {
@@ -45,4 +47,4 @@ async def websocket_endpoint(websocket: WebSocket):
                 )
         except WebSocketDisconnect:
             print("client connection disconnected")
-            break
+            socketConnections = []

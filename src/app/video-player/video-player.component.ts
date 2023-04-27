@@ -36,11 +36,24 @@ export class VideoPlayerComponent implements AfterViewInit {
       this.socket.subscribe((data: any) => {
         console.log("received message:", data.message);
         let msg = JSON.parse(data.message).message;
+        if(msg.includes("start")){
+          if(this.player.hasStarted()) 
+          {
+
+          } else {
+           this.player.play();
+          }
+        }
         if(msg.includes("play")){
           this.player.play();
         }
         if(msg.includes("pause")){
           this.player.pause();
+        }
+
+        if(msg.includes("stop")){
+          console.log("received stop")
+          this.stopSessionClick(true)
         }
       });
     }
@@ -82,9 +95,16 @@ export class VideoPlayerComponent implements AfterViewInit {
     this.player.addChild('CustomButton');
   }
 
-  stopSessionClick() {
+  public stopSessionClick(fromSocket: boolean = false) {
+    console.log("Recived stop:", fromSocket)
     this.sessionId = window.localStorage.getItem("sessionId")
     this.userId = window.localStorage.getItem("userName")
+    if(!fromSocket){
+      let msg = JSON.stringify({
+        message: "stop video"
+      })
+      this.socket.next(msg)
+    }
     this.apiservice.stopSession(this.sessionId, this.userId).subscribe((data: any)=> {
       console.log(data)
       this.sessionId = window.localStorage.getItem("sessionId");

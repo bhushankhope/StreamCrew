@@ -1,9 +1,12 @@
 // import { error } from 'console';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { videoJs } from '../videojs';
 import { SeekOptions } from "./types";
 const Button = videoJs.getComponent('Button');
 
 export class SeekButtonComponent extends Button {
+    // @Output() seeked = new EventEmitter<{ currentTime: number, seekDuration: number }>();
+
     constructor(player: ReturnType<typeof videoJs.player>, options: SeekOptions) {
         super(player, options);
         if (this.options_.forward) {
@@ -37,22 +40,22 @@ export class SeekButtonComponent extends Button {
             this.player_.currentTime(currentTime - this.options_.backward);
         }
 
-        const data = {
-          currentTime,
-          seekDuration
-        }
+        // const data = {
+        //   currentTime,
+        //   seekDuration
+        // }
 
-        const requestOptions: RequestInit = {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: {'Content-type': 'application/json'}
-        };
-        fetch('', requestOptions)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Failed to send seek request to server');
-          }
-        })
-        .catch (error => console.error(error));
+        // const requestOptions: RequestInit = {
+        //   method: 'POST',
+        //   body: JSON.stringify(data),
+        //   headers: {'Content-type': 'application/json'}
+        // };
+        // fetch('', requestOptions)
+        // .then(response => {
+        //   if (!response.ok) {
+        //     throw new Error('Failed to send seek request to server');
+        //   }
+        // })
+        // .catch (error => console.error(error));
     }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, NgModule, ViewChild } from '@angular/core';
 import { VideoJsOptions } from "src/models/videojs-options";
 import CustomVideoJsComponent from "./custom-video-js-components";
 import "./seek-plugin";
@@ -8,6 +8,7 @@ import { videoJs } from './videojs';
 import { ApiService } from '../services/apiservice.service';
 import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { SeekButtonComponent } from './seek-plugin/component';
 
 @Component({
   selector: 'app-video-player',
@@ -27,7 +28,9 @@ export class VideoPlayerComponent implements AfterViewInit {
   sessionId: string | null='';
   userId: string | null='';
   socket: WebSocketSubject<any>;
-  constructor(private apiservice: ApiService) { }
+  constructor(private apiservice: ApiService) {
+
+   }
 
   ngOnInit() {
     if (!this.socket || this.socket.closed) {
@@ -36,7 +39,10 @@ export class VideoPlayerComponent implements AfterViewInit {
       this.socket.subscribe((data: any) => {
         console.log("received message:", data.message);
         let msg = JSON.parse(data.message).message;
-        if(msg.includes("start")){
+        // let seekTime = data.time;
+        // console.log('aaa', data.time);
+        // console.log("msg", typeof msg)
+        if(typeof msg=='string' && msg.includes("start")){
           if(this.player.hasStarted()) 
           {
 
@@ -44,16 +50,23 @@ export class VideoPlayerComponent implements AfterViewInit {
            this.player.play();
           }
         }
-        if(msg.includes("play")){
+        
+        if(typeof msg=='string' && msg.includes("play")){
           this.player.play();
         }
-        if(msg.includes("pause")){
+
+        if(typeof msg=='string' && msg.includes("pause")){
           this.player.pause();
         }
 
-        if(msg.includes("stop")){
+        if(typeof msg=='string' && msg.includes("stop")){
           console.log("received stop")
           this.stopSessionClick(true)
+        }
+
+        if(typeof msg=='number'){
+          console.log("seeked", msg);
+          this.player.currentTime(msg);
         }
       });
     }
@@ -87,6 +100,15 @@ export class VideoPlayerComponent implements AfterViewInit {
         })
         this.socket.next(msg)
       });
+
+    this.player.on('seeked', (e: any)=> {
+      let tm:string=this.player.currentTime()
+        console.log("player seeked video")
+        let msg = JSON.stringify({
+          message: tm
+        })
+        this.socket.next(msg)
+    });
   }
 
   onPlayerReady() {
@@ -113,4 +135,10 @@ export class VideoPlayerComponent implements AfterViewInit {
     })
 
 }
+
+// public timeToSeconds(time: number): number {
+//   const [hours, minutes, seconds] = time.split(':').map(Number);
+//   return hours * 3600 + minutes * 60 + seconds;
+// }
+
 }

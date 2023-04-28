@@ -49,7 +49,7 @@ async def websocket_endpoint(websocket: WebSocket):
         try:
             # Receive the JSON data sent by a client.
             data = await websocket.receive_json()
-            connection = await aiormq.connect("amqp://guest:guest@rabbitmq/")
+            connection = await aiormq.connect("amqp://guest:guest@172.26.0.1/")
             channel = await connection.channel()
             declare_ok = await channel.queue_declare('channel')
             # Some (fake) heavy data processing logic.

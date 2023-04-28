@@ -3,7 +3,7 @@ import redis
 
 class RedisConn:
     def __init__(self):
-        self.conn = redis.Redis(host='redis', port=6379, db=0)
+        self.conn = redis.Redis(host='172.26.0.1', port=6379, db=0)
 
 def getCacheData(key):
     cache = RedisConn()

@@ -36,6 +36,18 @@ services:
           - frontnet    
         healthcheck:
             test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+    rabbitmq:
+        image: rabbitmq:3-management-alpine
+        container_name: 'rabbitmq'
+        ports:
+            - 5672:5672
+            - 15672:15672
+        volumes:
+            - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+            - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+        networks:
+             - backnet
+             - frontnet 
     app:
         image: app
         restart: always
@@ -44,6 +56,7 @@ services:
         links:
             - "db"
             - "cache"
+            - "rabbitmq"
         networks:
           - backnet
           - frontnet
